@@ -14,7 +14,7 @@ from blueprint import font_blueprint
 from blueprint import language_blueprint
 from blueprint import user_blueprint
 
-from utility import Initialize
+from utility import initialize
 
 app = Flask(__name__)
 app.register_blueprint(channel_blueprint)

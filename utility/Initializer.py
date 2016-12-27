@@ -10,7 +10,7 @@ from sqlalchemy import create_engine
 from session import Base
 
 
-def Initialize():
+def initialize():
     engine = create_engine(
         "mysql://root:root@localhost/fontman"
     )

@@ -1,6 +1,6 @@
 """ Font service
 
-Provides high level functions to manipulate font database
+Provides high level functions to manipulate font table.
 
 Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 19/12/2016
 """
@@ -12,39 +12,29 @@ from session import db_session
 class FontService:
 
     def add_new(
-            self, channel_id, name, preview_cdn, sample, type, version, url
+            self, font_id, download_url, name, price, version
     ):
         new_font = Font(
-            channel_id=channel_id,
+            font_id=font_id,
+            download_url=download_url,
             name=name,
-            preview_cdn=preview_cdn,
-            sample=sample,
-            type=type,
-            version=version,
-            url=url
+            price=price,
+            version=version
         )
 
         db_session.add(new_font)
         db_session.commit()
 
-    def delete_by_id(self, id):
-        self.find_by_id(id).delete()
+    def delete_by_font_id(self, font_id):
+        self.find_by_font_id(font_id).delete()
         db_session.commit()
 
     def find_all(self):
         return db_session.query(Font).all()
 
-    def find_all_by_channel_id(self, channel_id):
-        return db_session.query(Font).filter_by(channel_id=channel_id).all()
+    def find_by_font_id(self, font_id):
+        return db_session.query(Font).filter_by(font_id=font_id)
 
-    def find_by_id(self, id):
-        return db_session.query(Font).filter_by(id=id)
-
-    def find_by_name(self, channel_id, name, url):
-        return db_session.query(Font).filter_by(
-            channel_id=channel_id, name=name, url=url
-        )
-
-    def update_by_id(self, id, update_list):
-        self.find_by_id(id).update(update_list)
+    def update_by_id(self, font_id, update_data):
+        self.find_by_font_id(font_id).update(update_data)
         db_session.commit()
