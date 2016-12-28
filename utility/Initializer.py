@@ -12,6 +12,6 @@ from session import Base
 
 def initialize():
     engine = create_engine(
-        "mysql://root:root@localhost/fontman"
+        "mysql://root:root@localhost/fontman?charset=utf8"
     )
     Base.metadata.create_all(engine)

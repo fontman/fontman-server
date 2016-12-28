@@ -19,3 +19,4 @@ class User(Base):
     name = Column(String(200), nullable=False)
     password = Column(String(250), nullable=False)
     username = Column(String(200), nullable=False)
+    uuid = Column(String(250), nullable=False)

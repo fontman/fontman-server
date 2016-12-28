@@ -5,6 +5,8 @@ Provides high level functions to manipulate user database
 Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 18/12/2016
 """
 
+import uuid
+
 from model import User
 from session import db_session
 
@@ -13,7 +15,11 @@ class UserService:
 
     def add_new(self,email, name, password, username):
         new_user = User(
-            email=email, name=name, password=password, username=username
+            email=email,
+            name=name,
+            password=password,
+            username=username,
+            uuid = uuid.uuid4().hex
         )
 
         db_session.add(new_user)
@@ -31,6 +37,9 @@ class UserService:
 
     def find_by_username(self, username):
         return db_session.query(User).filter_by(username=username)
+
+    def find_token_by_usernme(self, username):
+        return self.find_by_username(username).uuid
 
     def update_by_email(self, email, update_data):
         self.find_by_email(email).update(update_data)
