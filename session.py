@@ -11,11 +11,14 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 # fontman version
-version = '0.1.0-SNAPSHOT'
+version = '0.0.1-SNAPSHOT'
+
+# API version and route URL
+application_root = "/api/v1alpha"
 
 # Database session variables
 engine = create_engine(
-    "mysql://root:root@localhost/fontman?charset=utf8",
+    "mysql://root:password@localhost/fontman?charset=utf8",
     isolation_level="READ UNCOMMITTED",
     poolclass=StaticPool,
     echo=True,

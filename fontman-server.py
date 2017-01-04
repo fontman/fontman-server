@@ -9,9 +9,11 @@ from flask import Flask
 from flask_cors import CORS
 
 from blueprint import auth_blueprint
+from session import application_root
 from utility import initialize
 
 app = Flask(__name__)
+app.config["APPLICATION_ROOT"] = application_root
 app.register_blueprint(auth_blueprint)
 
 CORS(app, resources=r'/api/*', headers='Content-Type')

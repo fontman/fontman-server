@@ -13,20 +13,21 @@ from session import db_session
 
 class UserService:
 
-    def add_new(self,email, name, password, username):
+    def add_new(self, email, name, password):
         new_user = User(
             email=email,
             name=name,
             password=password,
-            username=username,
-            uuid = uuid.uuid4().hex
+            token = uuid.uuid4().hex
         )
 
         db_session.add(new_user)
         db_session.commit()
 
-    def delete_by_username(self, username):
-        self.find_by_username(username).delete()
+        return new_user
+
+    def delete_by_email(self, email):
+        self.find_by_email(email).delete()
         db_session.commit()
 
     def find_all(self):
@@ -35,16 +36,16 @@ class UserService:
     def find_by_email(self, email):
         return db_session.query(User).filter_by(email=email)
 
-    def find_by_username(self, username):
-        return db_session.query(User).filter_by(username=username)
+    def find_by_user_id(self, user_id):
+        return db_session.query(User).filter_by(user_id=user_id)
 
-    def find_token_by_usernme(self, username):
-        return self.find_by_username(username).uuid
+    def find_token_by_email(self, email):
+        return self.find_by_email(email).uuid
 
     def update_by_email(self, email, update_data):
-        self.find_by_email(email).update(update_data)
-        db_session.commit()
-
-    def update_by_username(self, username, update_data):
-        self.find_by_username(username).update(update_data)
+        if "password" in update_data:
+            update_data["token"] = uuid.uuid4().hex
+            self.find_by_email(email).update(update_data)
+        else:
+            self.find_by_email(email).update(update_data)
         db_session.commit()
