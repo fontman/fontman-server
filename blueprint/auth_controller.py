@@ -20,8 +20,7 @@ def login():
 
     try:
         if user.one() is not None:
-            if user.username in request_data["email"] and user.password in \
-                    request_data["password"]:
+            if  user.password in request_data["password"]:
                 return jsonify(user.token)
 
             else:
@@ -42,17 +41,17 @@ def add_new_user():
     except:
         user = UserService().add_new(
             email=request_data["email"],
-            name=request_data["password"],
+            name=request_data["name"],
             password=request_data["password"]
         )
 
         return jsonify(
             {
-                "user_id": user["user_id"],
-                "email": user["email"],
-                "name": user["name"],
-                "password": user["password"],
-                "token": user["token"]
+                "user_id": user.user_id,
+                "email": user.email,
+                "name": user.name,
+                "password": user.password,
+                "token": user.token
             }
         )
 
