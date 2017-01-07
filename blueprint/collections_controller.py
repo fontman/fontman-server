@@ -129,7 +129,7 @@ def delete_collection_by_collection_id(collection_id):
 
 
 @collections_blueprint.route(
-    'collections/<collection_id>/update', methods=['POST']
+    '/collections/<collection_id>/update', methods=['POST']
 )
 def update_collection_by_collection_id(collection_id):
     request_data = request.json

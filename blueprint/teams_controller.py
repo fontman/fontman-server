@@ -7,7 +7,9 @@ Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 4/1/2017
 
 from flask import Blueprint, jsonify, request
 
+from service import RoleService
 from service import TeamService
+from service import UserService
 
 teams_blueprint = Blueprint('teams_blueprint', __name__)
 
@@ -72,18 +74,29 @@ def add_new_team():
     request_data = request.json
 
     try:
-        new_team = TeamService().add_new(
-            request_data["name"],
-            request_data["type"]
-        )
+        if request_data["token"] in UserService().find_by_user_id(
+                request_data["user_id"]
+        ).one().token:
+            new_team = TeamService().add_new(
+                request_data["name"],
+                request_data["type"]
+            )
 
-        return jsonify(
-            {
-                "team_id": new_team.team_id,
-                "name": new_team.name,
-                "type": new_team.type
-            }
-        )
+            new_role = RoleService().add_new(
+                "team", new_team.team_id, "admin", request_data["user_id"]
+            )
+
+            return jsonify(
+                {
+                    "team_id": new_team.team_id,
+                    "name": new_team.name,
+                    "role_id": new_role.role_id,
+                    "type": new_team.type
+                }
+            )
+
+        else:
+            return jsonify({"error": "Unauthorized request"})
 
     except:
         return jsonify({"error": "Error while creating team"})
@@ -94,8 +107,19 @@ def delete_team_by_team_id(team_id):
     request_data = request.json
 
     try:
-        TeamService().delete_by_team_id(team_id)
-        return jsonify(True)
+        if RoleService().find_role(
+                "team", team_id, request_data["user_id"]).one().role in "admin":
+            if request_data["token"] in UserService().find_by_user_id(
+                request_data["user_id"]
+            ).one().token:
+                TeamService().delete_by_team_id(team_id)
+                return jsonify(True)
+
+            else:
+                return jsonify({"error": "Unauthorized request"})
+
+        else:
+            return jsonify({"error": "User does not has admin privileges"})
 
     except:
         return jsonify({"error": "Invalid request"})
@@ -106,21 +130,33 @@ def update_team_by_team_id(team_id):
     request_data = request.json
 
     try:
-        TeamService().update_by_team_id(
-            team_id,
-            {
-                "name": request_data["name"],
-                "type": request_data["type"]
-            }
-        )
-        team = TeamService().find_by_type(team_id)
+        if RoleService().find_role(
+                "team", team_id, request_data["user_id"]).one().role in "admin":
+            if request_data["token"] in UserService().find_by_user_id(
+                request_data["user_id"]
+            ).one().token:
+                TeamService().update_by_team_id(
+                    team_id,
+                    {
+                        "name": request_data["name"],
+                        "type": request_data["type"]
+                    }
+                )
+                team = TeamService().find_by_type(team_id)
 
-        return jsonify(
-            {
-                "name": team.name,
-                "type": team.type
-            }
-        )
+                return jsonify(
+                    {
+                        "name": team.name,
+                        "type": team.type
+                    }
+                )
+
+
+            else:
+                return jsonify({"error": "Unauthorized request"})
+
+        else:
+            return jsonify({"error": "User does not has admin privileges"})
 
     except:
         return jsonify({"error": "Invalid request"})

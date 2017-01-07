@@ -17,5 +17,4 @@ class Font(Base):
     font_id = Column(Integer, primary_key=True)
     channel_id = Column(Integer, ForeignKey('channel.channel_id'))
     name = Column(String(100), nullable=False)
-    team_id = Column(Integer, ForeignKey('team.team_id'), nullable=False)
     type = Column(String(20), default='public', nullable=False)

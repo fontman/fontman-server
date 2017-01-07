@@ -10,6 +10,7 @@ from flask import Blueprint, jsonify, request
 from consumer import GitHubConsumer
 from service import FontFaceService
 from service import FontService
+from service import RoleService
 from service import UserService
 
 fonts_blueprint = Blueprint('fonts_blueprint', __name__)
@@ -113,7 +114,6 @@ def add_new_font():
             new_font = FontService().add_new_font(
                 channel_id=request_data["channel_id"],
                 name=request_data["name"],
-                team_id=request_data["team_id"],
                 type=request_data["team"]
             )
 
@@ -147,12 +147,17 @@ def add_new_font():
                     }
                 )
 
+            new_role = RoleService().add_new(
+                "font", new_font.font_id, "admin", request_data["user_id"]
+            )
+
             return jsonify(
                 {
                     "font_id": new_font.font_id,
                     "channel_id": new_font.channel_id,
                     "fontfaces": fontfaces,
                     "name": new_font.name,
+                    "role_id": new_role.role_id,
                     "team_id": new_font.team_id,
                     "type": new_font.type
                 }

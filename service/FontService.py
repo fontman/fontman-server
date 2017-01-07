@@ -11,11 +11,10 @@ from session import db_session
 
 class FontService:
 
-    def add_new_font(self, channel_id, name, team_id, type):
+    def add_new_font(self, channel_id, name, type):
         new_font = Font(
             channel_id=channel_id,
             name=name,
-            team_id=team_id,
             type=type
         )
 
