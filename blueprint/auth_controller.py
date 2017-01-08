@@ -16,11 +16,13 @@ auth_blueprint = Blueprint('auth_blueprint', __name__)
 @auth_blueprint.route('/auth/login', methods=['POST'])
 def login():
     request_data = request.json
-    user = UserService().find_by_email(request_data["email"])
+    user = UserService().find_by_email(request_data["email"]).first()
+    print(user)
 
     try:
-        if user.one() is not None:
-            if  user.password in request_data["password"]:
+        if user is not None:
+            if user.password in request_data["password"]:
+                print(user.token)
                 return jsonify(user.token)
 
             else:

@@ -21,16 +21,15 @@ from session import application_root
 from utility import initialize
 
 app = Flask(__name__)
-app.config["APPLICATION_ROOT"] = application_root
 
-app.register_blueprint(auth_blueprint)
-app.register_blueprint(collections_blueprint)
-app.register_blueprint(fontfaces_blueprint)
-app.register_blueprint(fonts_blueprint)
-app.register_blueprint(ratings_blueprint)
-app.register_blueprint(roles_blueprint)
-app.register_blueprint(teams_blueprint)
-app.register_blueprint(users_blueprint)
+app.register_blueprint(auth_blueprint, url_prefix=application_root)
+app.register_blueprint(collections_blueprint, url_prefix=application_root)
+app.register_blueprint(fontfaces_blueprint, url_prefix=application_root)
+app.register_blueprint(fonts_blueprint, url_prefix=application_root)
+app.register_blueprint(ratings_blueprint, url_prefix=application_root)
+app.register_blueprint(roles_blueprint, url_prefix=application_root)
+app.register_blueprint(teams_blueprint, url_prefix=application_root)
+app.register_blueprint(users_blueprint, url_prefix=application_root)
 
 app.register_blueprint(auth_blueprint)
 
