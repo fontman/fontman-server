@@ -21,7 +21,7 @@ engine = create_engine(
     "mysql://root:password@localhost/fontman?charset=utf8",
     isolation_level="READ UNCOMMITTED",
     poolclass=StaticPool,
-    echo=True,
+    echo=True
 )
 Base = declarative_base()
 

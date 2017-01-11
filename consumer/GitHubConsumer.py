@@ -37,6 +37,20 @@ class GitHubConsumer:
                + "zipball/" + tag
 
     def list_contents(self, location=""):
+        print(location)
+        print("https://api.github.com/repos/"
+            + self.__user + "/"
+            + self.__repository + "/contents/"
+            + location + "?ref="
+            + self.__branch)
+        print(requests.get(
+            "https://api.github.com/repos/"
+            + self.__user + "/"
+            + self.__repository + "/contents/"
+            + location + "?ref="
+            + self.__branch
+        ).json())
+
         return requests.get(
             "https://api.github.com/repos/"
             + self.__user + "/"

@@ -10,6 +10,7 @@ from flask import Blueprint, jsonify, request
 from consumer import GitHubConsumer
 from service import FontFaceService
 from service import FontService
+from service import MetadataService
 from service import RoleService
 from service import UserService
 
@@ -109,31 +110,37 @@ def add_new_font():
 
     try:
         if request_data["token"] in UserService().find_by_user_id(
-            request_data["user_id"].one().token
-        ):
-            new_font = FontService().add_new_font(
-                channel_id=request_data["channel_id"],
-                name=request_data["name"],
-                type=request_data["team"]
-            )
-
+            request_data["user_id"]
+        ).first().token:
             github_consumer = GitHubConsumer(
-                request_data["branch"],
-                request_data["repository"],
-                request_data["user"]
+                request_data["ghPagesBranch"],
+                request_data["gitRepository"],
+                request_data["gitUser"]
             )
-            gh_files_list = github_consumer.list_contents(
-                request_data["font_dir"]
+            gh_files_info_list = github_consumer.list_contents(
+                request_data["ghPagesFontDir"]
             )
 
-            for file in gh_files_list:
-                if ".otf" in file or ".ttf" in file:
+            new_font = FontService().add_new_font(
+                request_data["channel_id"],
+                request_data["name"],
+                request_data["type"]
+            )
+
+            new_metadata = MetadataService().add_new(
+                new_font.font_id,
+                request_data["ghPagesBranch"],
+                request_data["ghPagesFontDir"],
+                request_data["gitRepository"],
+                request_data["gitUser"]
+            )
+
+            for file_info in gh_files_info_list:
+                if ".otf" in file_info["name"] or ".ttf" in file_info["name"]:
                     FontFaceService().add_new_font(
                         new_font.font_id,
-                        (file.split(".")[0]).split("-")[1],
-                        github_consumer.get_cdn_link(
-                            request_data + "/" + file
-                        )
+                        (file_info["name"].split(".")[0]).split("-")[1],
+                        github_consumer.get_cdn_link(file_info["path"])
                     )
 
             fontfaces = []
@@ -158,7 +165,6 @@ def add_new_font():
                     "fontfaces": fontfaces,
                     "name": new_font.name,
                     "role_id": new_role.role_id,
-                    "team_id": new_font.team_id,
                     "type": new_font.type
                 }
             )
@@ -167,7 +173,7 @@ def add_new_font():
             return jsonify({"error": "Unauthorized request"})
 
     except:
-        return jsonify({"error": "Error while creating new font"})
+        return jsonify({"error": "Invalid data, please check again!"})
 
 
 @fonts_blueprint.route('/fonts/<font_id>/update', methods=['POST'])

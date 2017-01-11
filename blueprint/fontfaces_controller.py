@@ -8,6 +8,7 @@ Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 4/1/2017
 from flask import Blueprint, jsonify, request
 
 from service import FontFaceService
+from service import UserService
 
 fontfaces_blueprint = Blueprint('fontfaces_blueprint', __name__)
 
@@ -75,26 +76,15 @@ def delete_fontface_by_fontface_id(fontface_id):
     request_data = request.json
 
     try:
-        FontFaceService().delete_by_fontface_id(fontface_id)
-        return jsonify(True)
+        if request_data["token"] in UserService().find_by_user_id(
+                request_data["user_id"].first().toekn):
+            FontFaceService().delete_by_fontface_id(fontface_id)
+            return jsonify(True)
+
+        else:
+            return jsonify({"error": "Unauthorized request!"})
 
     except:
-        return jsonify({"error": "Fontface does not exists or already deleted"})
-
-
-@fontfaces_blueprint.route('/fontfaces/<fontface_id>/update', methods=['POST'])
-def update_fontface_by_fontface_id(fontface_id):
-    request_data = request.json
-
-    try:
-        FontFaceService().update_by_fontface_id(
-            fontface_id,
-            {
-                "resource_path": request_data["resource_path"]
-            }
+        return jsonify(
+            {"error": "Fontface does not exists or already deleted!"}
         )
-
-        return jsonify(True)
-
-    except:
-        return jsonify(True)

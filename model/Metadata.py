@@ -14,7 +14,9 @@ class Metadata(Base):
 
     __tablename__ = 'metadata'
 
-    id = Column(Integer, primary_key=True)
+    metadata_id = Column(Integer, primary_key=True)
     font_id = Column(Integer, ForeignKey('font.font_id'), nullable=False)
-    key = Column(String(100), nullable=False)
-    value = Column(String(250), nullable=False)
+    gh_pages_branch = Column(String(50), nullable=False)
+    gh_pages_font_dir = Column(String(50), nullable=False)
+    git_repository = Column(String(50), nullable=False)
+    git_user = Column(String(50), nullable=False)
