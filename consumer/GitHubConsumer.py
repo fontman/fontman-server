@@ -36,6 +36,10 @@ class GitHubConsumer:
                + self.__repository + "/"\
                + "zipball/" + tag
 
+    def get_tags_url(self):
+        return "https://api.github.com/repos/" + self.__user\
+               + self.__repository + '/tags'
+
     def list_contents(self, location=""):
         print(location)
         print("https://api.github.com/repos/"

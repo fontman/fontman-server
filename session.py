@@ -18,7 +18,7 @@ application_root = "/api/v1alpha"
 
 # Database session variables
 engine = create_engine(
-    "mysql://root:password@localhost/fontman?charset=utf8",
+    "mysql://root@localhost/fontman?charset=utf8",
     isolation_level="READ UNCOMMITTED",
     poolclass=StaticPool,
     echo=True

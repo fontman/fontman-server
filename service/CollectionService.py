@@ -28,7 +28,7 @@ class CollectionService:
         db_session.commit()
 
     def find_all(self):
-        return db_session.query(Collection).all()
+        return db_session.query(Collection.collection_id)
 
     def find_by_collection_id(self, collection_id):
         return db_session.query(Collection).filter_by(

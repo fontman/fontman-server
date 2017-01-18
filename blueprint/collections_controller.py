@@ -16,15 +16,8 @@ collections_blueprint = Blueprint('collections_blueprint', __name__)
 def find_all_collections():
     response_data = []
 
-    for collection in CollectionService().find_all():
-        response_data.append(
-            {
-                "collection_id": collection.collection_id,
-                "name": collection.name,
-                "team_id": collection.team_id,
-                "type": collection.type
-            }
-        )
+    for collection_id in CollectionService().find_all():
+        response_data.append(collection_id[0])
 
     return jsonify(response_data)
 

@@ -28,7 +28,7 @@ class FontService:
         db_session.commit()
 
     def find_all(self):
-        return db_session.query(Font).all()
+        return db_session.query(Font.font_id)
 
     def find_by_channel_id(self, channel_id):
         return db_session.query(Font).filter_by(channel_id=channel_id)

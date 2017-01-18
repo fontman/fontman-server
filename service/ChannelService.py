@@ -11,5 +11,20 @@ from model import Channel
 
 class ChannelService:
 
+    def add_new(self, name, type, maintainer_id=0):
+        new_channel = Channel(
+            maintainer_id=maintainer_id,
+            name=name,
+            type=type
+        )
+
+        db_session.add(new_channel)
+        db_session.commit()
+
+        return new_channel
+
     def find_all(self):
-        return db_session.query(Channel).all()
+        return db_session.query(Channel.channel_id)
+
+    def find_by_channel_id(self, channel_id):
+        return db_session.query(Channel).filter_by(channel_id=channel_id)

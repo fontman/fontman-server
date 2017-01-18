@@ -14,29 +14,21 @@ from service import MetadataService
 from service import RoleService
 from service import UserService
 
-fonts_blueprint = Blueprint('fonts_blueprint', __name__)
+fonts_blueprint = Blueprint("fonts_blueprint", __name__)
 
 
-@fonts_blueprint.route('/fonts')
+@fonts_blueprint.route("/fonts")
 def find_all_fonts():
     response_data = []
     fonts = FontService().find_all()
 
-    for font in fonts:
-        response_data.append(
-            {
-                "font_id": font.font_id,
-                "channel_id": font.channel_id,
-                "name": font.name,
-                "team_id": font.team_id,
-                "type": font.type
-            }
-        )
+    for font_id in fonts:
+        response_data.append(font_id[0])
 
     return jsonify(response_data)
 
 
-@fonts_blueprint.route('/fonts/<font_id>')
+@fonts_blueprint.route("/fonts/<font_id>")
 def find_font_by_font_id(font_id):
     try:
         font = FontService().find_by_font_id(font_id).one()
@@ -45,7 +37,6 @@ def find_font_by_font_id(font_id):
                 "font_id": font.font_id,
                 "channel_id": font.channel_id,
                 "name": font.name,
-                "team_id": font.team_id,
                 "type": font.type
             }
         )
@@ -54,31 +45,13 @@ def find_font_by_font_id(font_id):
         return jsonify({"error": "Invalid Font request"})
 
 
-@fonts_blueprint.route('/fonts/')
+@fonts_blueprint.route("/fonts/")
 def find_fonts_by_request_parameter():
     response_data = []
-    error1, error2 = False, False
+    error = False
 
     try:
-        query_string = request.args.get('team_id')
-        fonts = FontService().find_by_team_id(query_string)
-
-        for font in fonts:
-            response_data.append(
-                {
-                    "font_id": font.font_id,
-                    "channel_id": font.channel_id,
-                    "name": font.name,
-                    "team_id": font.team_id,
-                    "type": font.type
-                }
-            )
-
-    except:
-        error1 = True
-
-    try:
-        query_string = request.args.get('type')
+        query_string = request.args.get("type")
         fonts = FontService().find_by_type(query_string)
 
         for font in fonts:
@@ -86,7 +59,6 @@ def find_fonts_by_request_parameter():
                 "font_id": font.font_id,
                 "channel_id": font.channel_id,
                 "name": font.name,
-                "team_id": font.team_id,
                 "type": font.type
             }
 
@@ -96,15 +68,36 @@ def find_fonts_by_request_parameter():
                 continue
 
     except:
-        error2 = True
+        error = True
 
-    if error1 and error2:
+    if error:
         return jsonify({"error": "Invalid request"})
     else:
         return jsonify(response_data)
 
 
-@fonts_blueprint.route('/fonts/new', methods=['POST'])
+@fonts_blueprint.route("/fonts/<font_id>/metadata")
+def find_tags_url_by_font_id(font_id):
+    try:
+        metadata = MetadataService().find_by_font_id(font_id).first()
+        consumer = GitHubConsumer(
+            metadata.gh_pages_branch,
+            metadata.git_repository,
+            metadata.git_user
+        )
+
+        return jsonify(
+            {
+                "font_id": metadata.font_id,
+                "tags_url": consumer.get_tags_url()
+            }
+        )
+
+    except:
+        return jsonify({"error": "Invalid request"})
+
+
+@fonts_blueprint.route("/fonts/new", methods=["POST"])
 def add_new_font():
     request_data = request.json
 
@@ -136,6 +129,9 @@ def add_new_font():
             )
 
             for file_info in gh_files_info_list:
+                if "test" in (file_info["name"]).lower():
+                    continue
+
                 if ".otf" in file_info["name"] or ".ttf" in file_info["name"]:
                     FontFaceService().add_new_font(
                         new_font.font_id,
@@ -173,10 +169,10 @@ def add_new_font():
             return jsonify({"error": "Unauthorized request"})
 
     except:
-        return jsonify({"error": "Invalid data, please check again!"})
+        raise
 
 
-@fonts_blueprint.route('/fonts/<font_id>/update', methods=['POST'])
+@fonts_blueprint.route("/fonts/<font_id>/update", methods=["POST"])
 def update_font_by_font_id(font_id):
     request_data = request.json
 
@@ -185,7 +181,6 @@ def update_font_by_font_id(font_id):
             font_id,
             {
                 "name": request_data["name"],
-                "team_id": request_data["team_id"],
                 "type": request_data["type"]
             }
         )
@@ -195,7 +190,6 @@ def update_font_by_font_id(font_id):
             {
                 "font_id": font.font_id,
                 "name": font.name,
-                "team_id": font.team_id,
                 "type": font.type
             }
         )

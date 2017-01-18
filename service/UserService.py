@@ -31,7 +31,7 @@ class UserService:
         db_session.commit()
 
     def find_all(self):
-        return db_session.query(User).all()
+        return db_session.query(User.user_id)
 
     def find_by_email(self, email):
         return db_session.query(User).filter_by(email=email)

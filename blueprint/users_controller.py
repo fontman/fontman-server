@@ -16,14 +16,8 @@ users_blueprint = Blueprint('users_blueprint', __name__)
 def find_all_users():
     response_data = []
 
-    for user in UserService().find_all():
-        response_data.append(
-            {
-                "user_id": user.user_id,
-                "email": user.email,
-                "name": user.name,
-            }
-        )
+    for user_id in UserService().find_all():
+        response_data.append(user_id[0])
 
     return jsonify(response_data)
 

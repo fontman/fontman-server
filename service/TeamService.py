@@ -24,7 +24,7 @@ class TeamService:
         db_session.commit()
 
     def find_all(self):
-        return db_session.query(Team).all()
+        return db_session.query(Team.team_id)
 
     def find_by_team_id(self, team_id):
         db_session.query(Team).filter_by(team_id=team_id)

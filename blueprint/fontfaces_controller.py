@@ -17,15 +17,8 @@ fontfaces_blueprint = Blueprint('fontfaces_blueprint', __name__)
 def find_all_fontfaces():
     response_data = []
 
-    for fontface in FontFaceService().find_all():
-        response_data.append(
-            {
-                "fontface_id": fontface.fontface_id,
-                "fontface": fontface.fontface,
-                "font_id": fontface.font_id,
-                "resource_path": fontface.resource_path
-            }
-        )
+    for fontface_id in FontFaceService().find_all():
+        response_data.append(fontface_id[0])
 
     return jsonify(response_data)
 

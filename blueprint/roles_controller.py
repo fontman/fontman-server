@@ -10,13 +10,13 @@ from flask import Blueprint, jsonify, request
 from service import RoleService
 from service import UserService
 
-roles_blueprint = Blueprint('roles_blueprint', __name__)
+roles_blueprint = Blueprint("roles_blueprint", __name__)
 
 
-@roles_blueprint.route('/roles/<entity>/<entity_id>/')
+@roles_blueprint.route("/roles/<entity>/<entity_id>/")
 def find_roles_by_entity_id(entity, entity_id):
     try:
-        query_string = request.args.get('user_id')
+        query_string = request.args.get("user_id")
         role = RoleService().find_role(entity, entity_id, query_string).one()
 
         return jsonify(
@@ -29,7 +29,7 @@ def find_roles_by_entity_id(entity, entity_id):
         return jsonify({"error": "Unauthorized action"})
 
 
-@roles_blueprint.route('/roles/new', methods=['POST'])
+@roles_blueprint.route("/roles/new", methods=["POST"])
 def add_new_role():
     request_data = request.json
 
@@ -61,7 +61,7 @@ def add_new_role():
         return jsonify({"error": "Error while creating new role"})
 
 
-@roles_blueprint.route('/roles/<role_id>/delete', methods=['POST'])
+@roles_blueprint.route("/roles/<role_id>/delete", methods=["POST"])
 def delete_role_by_role_id(role_id):
     request_data = request.json
 
@@ -73,7 +73,7 @@ def delete_role_by_role_id(role_id):
         return jsonify({"error": "Invalid request"})
 
 
-@roles_blueprint.route('/roles/<role_id>/updade')
+@roles_blueprint.route("/roles/<role_id>/updade")
 def update_role_by_role_id(role_id):
     request_data = request.json
 

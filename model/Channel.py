@@ -12,9 +12,9 @@ from session import Base
 
 class Channel(Base):
 
-    __tablename__  = 'channel'
+    __tablename__  = "channel"
 
     channel_id = Column(Integer, primary_key=True)
-    maintainer_id = Column(Integer, ForeignKey('user.user_id'), nullable=False)
+    maintainer_id = Column(Integer, nullable=True)
     name = Column(String(100), nullable=False)
-    type = Column(String(20), default='public', nullable=False)
+    type = Column(String(20), default="public", nullable=False)

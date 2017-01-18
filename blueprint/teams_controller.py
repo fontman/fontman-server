@@ -18,14 +18,8 @@ teams_blueprint = Blueprint('teams_blueprint', __name__)
 def find_all_teams():
     response_data = []
 
-    for team in TeamService().find_all():
-        response_data.append(
-            {
-                "team_id": team.team_id,
-                "name": team.name,
-                "type": team.type
-            }
-        )
+    for team_id in TeamService().find_all():
+        response_data.append(team_id[0])
 
     return jsonify(response_data)
 

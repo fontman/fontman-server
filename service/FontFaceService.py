@@ -28,7 +28,7 @@ class FontFaceService:
         db_session.commit()
 
     def find_all(self):
-        return db_session.query(FontFace).all()
+        return db_session.query(FontFace.fontface_id)
 
     def find_by_fontface_id(self, fontface_id):
         return db_session.query(FontFace).filter_by(fontface_id=fontface_id)
