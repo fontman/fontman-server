@@ -30,31 +30,18 @@ class GitHubConsumer:
             + 'releases/latest'
         ).json()
 
-    def get_release_link(self, tag):
+    def get_release_info_url(self, rel_id):
         return "https://api.github.com/repos/"\
-               + self.__user + "/"\
-               + self.__repository + "/"\
-               + "zipball/" + tag
+               + self.__user \
+               + self.__repository + '/releases/'\
+               + str(rel_id)
 
     def get_tags_url(self):
-        return "https://api.github.com/repos/" + self.__user\
-               + self.__repository + '/tags'
+        return "https://api.github.com/repos/"\
+               + self.__user\
+               + self.__repository + '/releases'
 
     def list_contents(self, location=""):
-        print(location)
-        print("https://api.github.com/repos/"
-            + self.__user + "/"
-            + self.__repository + "/contents/"
-            + location + "?ref="
-            + self.__branch)
-        print(requests.get(
-            "https://api.github.com/repos/"
-            + self.__user + "/"
-            + self.__repository + "/contents/"
-            + location + "?ref="
-            + self.__branch
-        ).json())
-
         return requests.get(
             "https://api.github.com/repos/"
             + self.__user + "/"

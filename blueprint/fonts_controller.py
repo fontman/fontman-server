@@ -97,6 +97,40 @@ def find_tags_url_by_font_id(font_id):
         return jsonify({"error": "Invalid request"})
 
 
+@fonts_blueprint.route("/fonts/<font_id>/latest")
+def find_release_link_by_release_id(font_id):
+    metadata = MetadataService().find_by_font_id(font_id).first()
+    consumer = GitHubConsumer(
+        metadata.gh_pages_branch,
+        metadata.git_repository,
+        metadata.git_user
+    )
+
+    return jsonify(
+        {
+            "font_id": font_id,
+            "rel__info_url": consumer.get_release_info_url("latest")
+        }
+    )
+
+
+@fonts_blueprint.route("/fonts/<font_id>/releases/<rel_id>")
+def find_release_link_by_release_id(font_id, rel_id):
+    metadata = MetadataService().find_by_font_id(font_id).first()
+    consumer = GitHubConsumer(
+        metadata.gh_pages_branch,
+        metadata.git_repository,
+        metadata.git_user
+    )
+
+    return jsonify(
+        {
+            "font_id": font_id,
+            "rel__info_url": consumer.get_release_info_url(rel_id)
+        }
+    )
+
+
 @fonts_blueprint.route("/fonts/new", methods=["POST"])
 def add_new_font():
     request_data = request.json
