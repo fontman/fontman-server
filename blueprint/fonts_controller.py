@@ -98,7 +98,7 @@ def find_tags_url_by_font_id(font_id):
 
 
 @fonts_blueprint.route("/fonts/<font_id>/latest")
-def find_release_link_by_release_id(font_id):
+def find_latest_release_link_by(font_id):
     metadata = MetadataService().find_by_font_id(font_id).first()
     consumer = GitHubConsumer(
         metadata.gh_pages_branch,
@@ -126,7 +126,7 @@ def find_release_link_by_release_id(font_id, rel_id):
     return jsonify(
         {
             "font_id": font_id,
-            "rel__info_url": consumer.get_release_info_url(rel_id)
+            "rel_info_url": consumer.get_release_info_url(rel_id)
         }
     )
 
@@ -163,6 +163,7 @@ def add_new_font():
             )
 
             for file_info in gh_files_info_list:
+                print(gh_files_info_list)
                 if "test" in (file_info["name"]).lower():
                     continue
 
@@ -203,7 +204,7 @@ def add_new_font():
             return jsonify({"error": "Unauthorized request"})
 
     except:
-        raise
+        return jsonify({"error": "Invalid data provided. Please check."})
 
 
 @fonts_blueprint.route("/fonts/<font_id>/update", methods=["POST"])

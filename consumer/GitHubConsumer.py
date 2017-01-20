@@ -32,13 +32,13 @@ class GitHubConsumer:
 
     def get_release_info_url(self, rel_id):
         return "https://api.github.com/repos/"\
-               + self.__user \
+               + self.__user + "/" \
                + self.__repository + '/releases/'\
                + str(rel_id)
 
     def get_tags_url(self):
         return "https://api.github.com/repos/"\
-               + self.__user\
+               + self.__user + "/"\
                + self.__repository + '/releases'
 
     def list_contents(self, location=""):
