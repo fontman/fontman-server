@@ -11,8 +11,9 @@ from session import db_session
 
 class FontFaceService:
 
-    def add_new_font(self, font_id, fontface, resource_path):
+    def add_new_font(self, download_url, font_id, fontface, resource_path):
         new_fontface = FontFace(
+            download_url=download_url,
             font_id=font_id,
             fontface=fontface,
             resource_path=resource_path

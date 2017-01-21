@@ -163,12 +163,13 @@ def add_new_font():
             )
 
             for file_info in gh_files_info_list:
-                print(gh_files_info_list)
-                if "test" in (file_info["name"]).lower():
+                if "test" in (file_info["name"]).lower() or "my-font" in (
+                        file_info["name"]).lower():
                     continue
 
                 if ".otf" in file_info["name"] or ".ttf" in file_info["name"]:
                     FontFaceService().add_new_font(
+                        file_info["download_url"],
                         new_font.font_id,
                         (file_info["name"].split(".")[0]).split("-")[1],
                         github_consumer.get_cdn_link(file_info["path"])
@@ -180,6 +181,7 @@ def add_new_font():
                 fontfaces.append(
                     {
                         "fontface_id": fontface.fontface_id,
+                        "download_url": fontface.download_url,
                         "fontface": fontface.fontface,
                         "resource_path": fontface.resource_path
                     }
