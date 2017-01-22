@@ -9,11 +9,12 @@ from sqlalchemy import create_engine
 
 from service import ChannelService
 from session import Base
+from session import mysql_con_string
 
 
 def initialize():
     engine = create_engine(
-        "mysql://root@localhost/fontman?charset=utf8"
+        mysql_con_string
     )
     Base.metadata.create_all(engine)
 

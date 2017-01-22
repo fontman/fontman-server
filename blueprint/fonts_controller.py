@@ -89,6 +89,7 @@ def find_tags_url_by_font_id(font_id):
         return jsonify(
             {
                 "font_id": metadata.font_id,
+                "latest_tag_url": consumer.get_release_info_url("latest"),
                 "tags_url": consumer.get_tags_url()
             }
         )
@@ -109,7 +110,7 @@ def find_latest_release_link_by(font_id):
     return jsonify(
         {
             "font_id": font_id,
-            "rel__info_url": consumer.get_release_info_url("latest")
+            "rel_info_url": consumer.get_release_info_url("latest")
         }
     )
 
