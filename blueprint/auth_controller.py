@@ -20,7 +20,8 @@ def login():
 
     try:
         if user is not None:
-            user = UserService().update_by_email(request_data["email"], {})
+            UserService().update_by_email(request_data["email"], {})
+            user = UserService().find_by_email(request_data["email"]).first()
 
             if user.password in request_data["password"]:
                 return jsonify(
@@ -37,7 +38,7 @@ def login():
             return jsonify({"error": "Invalid email or password"})
 
     except:
-        return jsonify({"error": "Invalid email or password"})
+        raise
 
 
 @auth_blueprint.route('/auth/new/user', methods=['POST'])

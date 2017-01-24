@@ -46,10 +46,7 @@ class UserService:
         return self.find_by_email(email).uuid
 
     def update_by_email(self, email, update_data):
-        if "password" in update_data:
-            update_data["token"] = uuid.uuid4().hex
-            self.find_by_email(email).update(update_data)
-        else:
-            self.find_by_email(email).update(update_data)
+        update_data["token"] = uuid.uuid4().hex
 
+        self.find_by_email(email).update(update_data)
         self.__db_session.commit()
