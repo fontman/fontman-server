@@ -30,7 +30,6 @@ def find_user_by_user_id(user_id):
         return jsonify(
             {
                 "user_id": user.user_id,
-                "email": user.email,
                 "name": user.name
             }
         )

@@ -20,11 +20,21 @@ def login():
 
     try:
         if user is not None:
+            user = UserService().update_by_email(request_data["email"], {})
+
             if user.password in request_data["password"]:
-                return jsonify(user.token)
+                return jsonify(
+                    {
+                        "user_id": user.user_id,
+                        "token": user.token
+                    }
+                )
 
             else:
                 return jsonify({"error": "Invalid email or password"})
+
+        else:
+            return jsonify({"error": "Invalid email or password"})
 
     except:
         return jsonify({"error": "Invalid email or password"})
