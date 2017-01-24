@@ -8,10 +8,13 @@ Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 18/12/2016
 import uuid
 
 from model import User
-from session import db_session
+from session import DBSession
 
 
 class UserService:
+    
+    def __init__(self):
+        self.__db_session = DBSession()
 
     def add_new(self, email, name, password):
         new_user = User(
@@ -21,23 +24,23 @@ class UserService:
             token = uuid.uuid4().hex
         )
 
-        db_session.add(new_user)
-        db_session.commit()
+        self.__db_session.add(new_user)
+        self.__db_session.commit()
 
         return new_user
 
     def delete_by_email(self, email):
         self.find_by_email(email).delete()
-        db_session.commit()
+        self.__db_session.commit()
 
     def find_all(self):
-        return db_session.query(User.user_id)
+        return self.__db_session.query(User.user_id)
 
     def find_by_email(self, email):
-        return db_session.query(User).filter_by(email=email)
+        return self.__db_session.query(User).filter_by(email=email)
 
     def find_by_user_id(self, user_id):
-        return db_session.query(User).filter_by(user_id=user_id)
+        return self.__db_session.query(User).filter_by(user_id=user_id)
 
     def find_token_by_email(self, email):
         return self.find_by_email(email).uuid
@@ -48,4 +51,5 @@ class UserService:
             self.find_by_email(email).update(update_data)
         else:
             self.find_by_email(email).update(update_data)
-        db_session.commit()
+
+        self.__db_session.commit()

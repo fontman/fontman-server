@@ -5,11 +5,14 @@ High level functions to manipulate channels table.
 Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 31/12/2016
 """
 
-from session import db_session
+from session import DBSession
 from model import Channel
 
 
 class ChannelService:
+
+    def __init__(self):
+        self.__db_session = DBSession()
 
     def add_new(self, name, type, maintainer_id=0):
         new_channel = Channel(
@@ -18,13 +21,13 @@ class ChannelService:
             type=type
         )
 
-        db_session.add(new_channel)
-        db_session.commit()
+        self.__db_session.add(new_channel)
+        self.__db_session.commit()
 
         return new_channel
 
     def find_all(self):
-        return db_session.query(Channel.channel_id)
+        return self.__db_session.query(Channel.channel_id)
 
     def find_by_channel_id(self, channel_id):
-        return db_session.query(Channel).filter_by(channel_id=channel_id)
+        return self.__db_session.query(Channel).filter_by(channel_id=channel_id)

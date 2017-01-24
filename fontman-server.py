@@ -5,6 +5,7 @@ User management, channel management, cache database
 Created by Lahiru Pathirage <lpsandaruwan@gmail.com> on 18/12/16
 """
 
+import sys
 from flask import Flask
 from flask_cors import CORS
 
@@ -38,6 +39,13 @@ app.register_blueprint(auth_blueprint)
 CORS(app, resources=r'/api/*', headers='Content-Type')
 
 
+def main(argv):
+    if "init" in argv:
+        initialize()
+
+    if "run" in argv:
+        app.run(host='0.0.0.0', port=8080, threaded=True)
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, threaded=True)
-    # initialize()
+    main(sys.argv[1:])

@@ -6,10 +6,13 @@ Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 27/12/2016
 """
 
 from model import Metadata
-from session import db_session
+from session import DBSession
 
 
 class MetadataService:
+    def __init__(self):
+        self.__db_session = DBSession()
+    
 
     def add_new(
             self,
@@ -27,18 +30,18 @@ class MetadataService:
             git_user=git_user
         )
 
-        db_session.add(new_metadata)
-        db_session.commit()
+        self.__db_session.add(new_metadata)
+        self.__db_session.commit()
 
         return new_metadata
 
     def delete_by_font_id(self, font_id):
         self.find_by_font_id(font_id).delete()
-        db_session.commit()
+        self.__db_session.commit()
 
     def find_by_font_id(self, font_id):
-        return db_session.query(Metadata).filter_by(font_id=font_id)
+        return self.__db_session.query(Metadata).filter_by(font_id=font_id)
 
     def update_by_key(self, font_id, update_data):
         self.find_by_font_id(font_id).update(update_data)
-        db_session.commit()
+        self.__db_session.commit()
