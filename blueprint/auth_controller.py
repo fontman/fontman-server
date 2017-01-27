@@ -7,6 +7,7 @@ Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 27/12/2016
 """
 
 from flask import Blueprint, jsonify, request
+from passlib.hash import bcrypt
 
 from service import UserService
 
@@ -23,7 +24,7 @@ def login():
             UserService().update_by_email(request_data["email"], {})
             user = UserService().find_by_email(request_data["email"]).first()
 
-            if user.password in request_data["password"]:
+            if bcrypt.verify(request_data["password"], user.password):
                 return jsonify(
                     {
                         "user_id": user.user_id,
@@ -45,15 +46,14 @@ def login():
 def add_new_user():
     request_data = request.json
 
-    try:
-        if UserService().find_by_email(request_data["email"]).one() is not None:
+    if UserService().find_by_email(request_data["email"]).first() is not None:
             return jsonify({"error": "Email already exists"})
 
-    except:
+    else:
         user = UserService().add_new(
             email=request_data["email"],
             name=request_data["name"],
-            password=request_data["password"]
+            password=bcrypt.encrypt(request_data["password"])
         )
 
         return jsonify(
@@ -61,7 +61,6 @@ def add_new_user():
                 "user_id": user.user_id,
                 "email": user.email,
                 "name": user.name,
-                "password": user.password,
                 "token": user.token
             }
         )
@@ -72,13 +71,13 @@ def reset_password():
     request_data = request.json
 
     try:
-        user = UserService().find_by_email(request_data["email"]).one()
+        user = UserService().find_by_email(request_data["email"]).first()
 
-        if user.token in request_data["token"]:
+        if bcrypt.verify(request_data["old_password"], user.password):
             UserService().update_by_email(
                 request_data["email"],
                 {
-                    "password": request_data["password"]
+                    "password": bcrypt.encrypt(request_data["password"])
                 }
             )
             renewed_user = UserService().find_by_email(request_data["email"])
@@ -95,25 +94,6 @@ def reset_password():
 
     except:
         return jsonify({ "error": "Invalid username or password"})
-
-
-@auth_blueprint.route('/auth/update/token', methods=['POST'])
-def update_user_token():
-    request_data = request.json
-
-    try:
-        user = UserService().find_by_email(request_data["email"]).one()
-
-        if user.token in request_data["token"]:
-            UserService().update_by_email(request_data["email"], {})
-            renewed_user = UserService().find_by_email(
-                request_data["email"]
-            ).first()
-
-            return jsonify({"token": renewed_user.token})
-
-    except:
-        return jsonify({"error": "Invalid request"})
 
 
 @auth_blueprint.route('/auth/update/user', methods=['POST'])
