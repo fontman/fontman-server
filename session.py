@@ -23,7 +23,6 @@ mysql_con_string = "mysql://root@localhost/fontman?charset=utf8"
 engine = create_engine(
     mysql_con_string,
     isolation_level="READ UNCOMMITTED",
-    poolclass=StaticPool,
     echo=True
 )
 Base = declarative_base()

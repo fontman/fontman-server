@@ -106,7 +106,9 @@ def update_user_token():
 
         if user.token in request_data["token"]:
             UserService().update_by_email(request_data["email"], {})
-            renewed_user = UserService().find_by_email(request_data["email"])
+            renewed_user = UserService().find_by_email(
+                request_data["email"]
+            ).first()
 
             return jsonify({"token": renewed_user.token})
 
@@ -121,7 +123,7 @@ def update_user_data():
     try:
         if request_data["token"] in UserService().find_by_email(
                 request_data["email"]
-        ).one()["token"]:
+        ).first()["token"]:
             update_data = {
                 "email": request_data["new_email"],
                 "name": request_data["name"],
@@ -130,7 +132,7 @@ def update_user_data():
 
             renewed_user = UserService().find_by_email(
                 request_data["new_email"]
-            ).one()
+            ).first()
             response_data = {
                 "email": renewed_user.email,
                 "name": renewed_user.name,

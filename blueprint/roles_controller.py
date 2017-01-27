@@ -90,3 +90,26 @@ def update_role_by_role_id(role_id):
 
     except:
         return jsonify({"error": "Invalid request"})
+
+
+@roles_blueprint.route("/roles/<user_id>", methods=["POST"])
+def get_roles_by_user_id(user_id):
+    request_data = request.json
+    response_data = []
+    user = UserService().find_by_user_id(user_id).first()
+
+    if request_data["token"] in user.token:
+        for role in RoleService().find_by_user_id(user_id):
+            response_data.append(
+                {
+                    "role_id": role.role_id,
+                    "entity": role.entity,
+                    "entity_id": role.entity_id,
+                    "role": role.role
+                }
+            )
+
+        return jsonify(response_data)
+
+    else:
+        return jsonify({"error": "Unauthorized request"})

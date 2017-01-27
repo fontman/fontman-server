@@ -42,9 +42,6 @@ class UserService:
     def find_by_user_id(self, user_id):
         return self.__db_session.query(User).filter_by(user_id=user_id)
 
-    def find_token_by_email(self, email):
-        return self.find_by_email(email).uuid
-
     def update_by_email(self, email, update_data):
         update_data["token"] = uuid.uuid4().hex
 
