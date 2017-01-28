@@ -23,11 +23,11 @@ mysql_con_string = "mysql://root@localhost/fontman?charset=utf8"
 engine = create_engine(
     mysql_con_string,
     isolation_level="READ UNCOMMITTED",
-    echo=True
+    echo=True,
+    pool_recycle=3600
 )
 Base = declarative_base()
 
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 
-db_session = DBSession()
