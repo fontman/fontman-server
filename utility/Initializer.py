@@ -16,7 +16,7 @@ def initialize():
     engine = create_engine(
         mysql_con_string
     )
-    Base.metadata.create_all(engine)
+    Base.metadata.create_all(engine, checkfirst=True)
 
     ChannelService().add_new(
         "Fontman", "Public"
