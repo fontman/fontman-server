@@ -11,8 +11,6 @@ from service.FontFaceService import FontFaceService
 from service.FontService import FontService
 from service.FontCollectionService import FontCollectionService
 from service.MetadataService import MetadataService
-from service.RatingService import RatingService
 from service.RoleService import RoleService
 from service.TagService import TagService
-from service.TeamService import TeamService
 from service.UserService import UserService

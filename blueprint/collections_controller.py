@@ -5,9 +5,9 @@ REST blueprint to manipulate collections database.
 Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 3/1/2017
 """
 
-from flask import Blueprint, jsonify, request
-
 from service import CollectionService
+
+from flask import Blueprint, jsonify, request
 
 collections_blueprint = Blueprint('collections_blueprint', __name__)
 

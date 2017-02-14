@@ -5,10 +5,9 @@ REST blueprint to manipulate font-faces database.
 Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 4/1/2017
 """
 
-from flask import Blueprint, jsonify, request
-
 from service import FontFaceService
-from service import UserService
+
+from flask import Blueprint, jsonify, request
 
 fontfaces_blueprint = Blueprint('fontfaces_blueprint', __name__)
 
@@ -64,22 +63,3 @@ def find_fontface_by_font_id():
 
     except:
         return jsonify({"error": "Invalid request"})
-
-
-@fontfaces_blueprint.route('/fontfaces/<fontface_id>/delete', methods=['POST'])
-def delete_fontface_by_fontface_id(fontface_id):
-    request_data = request.json
-
-    try:
-        if request_data["token"] in UserService().find_by_user_id(
-                request_data["user_id"].first().toekn):
-            FontFaceService().delete_by_fontface_id(fontface_id)
-            return jsonify(True)
-
-        else:
-            return jsonify({"error": "Unauthorized request!"})
-
-    except:
-        return jsonify(
-            {"error": "Fontface does not exists or already deleted!"}
-        )

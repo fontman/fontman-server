@@ -5,9 +5,9 @@ REST blueprint to do user management.
 Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 4/1/2017
 """
 
-from flask import Blueprint, jsonify, request
-
 from service import UserService
+
+from flask import Blueprint, jsonify
 
 users_blueprint = Blueprint('users_blueprint', __name__)
 

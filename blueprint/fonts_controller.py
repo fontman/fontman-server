@@ -5,11 +5,11 @@ REST blueprint to manipulate font collections database.
 Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 3/1/2017
 """
 
-from flask import Blueprint, jsonify, request
-
 from consumer import GitHubConsumer
 from service import FontService
 from service import MetadataService
+
+from flask import Blueprint, jsonify, request
 
 fonts_blueprint = Blueprint("fonts_blueprint", __name__)
 

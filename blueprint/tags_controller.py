@@ -5,9 +5,9 @@ REST blueprint for font tags.
 Created by Lahiru Pathirage @ Mooniak <lpsandaruwan@gmail.com> on 8/2/2017
 """
 
-from flask import Blueprint, jsonify, request
-
 from service import TagService
+
+from flask import Blueprint, jsonify
 
 tags_blueprint = Blueprint("tags_blueprint", __name__)
 
@@ -27,4 +27,4 @@ def find_tags_by_font_id(font_id):
             }
         )
 
-    return response_data
+    return jsonify(response_data)

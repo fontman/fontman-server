@@ -6,10 +6,10 @@ client.
 Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 27/12/2016
 """
 
+from service import UserService
+
 from flask import Blueprint, jsonify, request
 from passlib.hash import bcrypt
-
-from service import UserService
 
 auth_blueprint = Blueprint('auth_blueprint', __name__)
 

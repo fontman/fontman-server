@@ -6,10 +6,10 @@ Eg: languages, serif/sans-serif...
 Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 8/2/2017
 """
 
+from session import Base
+
 from sqlalchemy import Column, ForeignKey, Integer
 from sqlalchemy import String
-
-from session import Base
 
 
 class Tag(Base):

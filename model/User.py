@@ -5,9 +5,9 @@ Fontman user data table.
 Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 27/12/2016
 """
 
-from sqlalchemy import Column, Integer, String
-
 from session import Base
+
+from sqlalchemy import Column, Integer, String
 
 
 class User(Base):

@@ -5,9 +5,9 @@ Font collections model. Table for curated and standard font collections.
 Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 3/1/2016
 """
 
-from sqlalchemy import Column, ForeignKey, Integer, String
-
 from session import Base
+
+from sqlalchemy import Column, ForeignKey, Integer, String
 
 
 class Collection(Base):

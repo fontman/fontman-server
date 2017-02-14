@@ -5,10 +5,10 @@ Provides high level functions to manipulate user database
 Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 18/12/2016
 """
 
-import uuid
-
 from model import User
 from session import DBSession
+
+import uuid
 
 
 class UserService:
