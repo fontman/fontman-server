@@ -2,7 +2,7 @@
 
 REST blueprint to manipulate font-faces database.
 
-Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 4/1/2017
+Created by Lahiru Pathirage <lpsandaruwan@gmail.com> on 4/1/2017
 """
 
 from service import FontFaceService
@@ -29,7 +29,6 @@ def find_fontface_by_fontface_id(fontface_id):
         return jsonify(
             {
                 "fontface_id": fontface.fontface_id,
-                "download_url": fontface.download_url,
                 "fontface": fontface.fontface,
                 "font_id": fontface.font_id,
                 "resource_path": fontface.resource_path
@@ -52,7 +51,6 @@ def find_fontface_by_font_id():
             response_data.append(
                 {
                     "fontface_id": fontface.fontface_id,
-                    "download_url": fontface.download_url,
                     "fontface": fontface.fontface,
                     "font_id": fontface.font_id,
                     "resource_path": fontface.resource_path

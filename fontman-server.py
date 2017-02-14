@@ -6,7 +6,6 @@ Created by Lahiru Pathirage <lpsandaruwan@gmail.com> on 18/12/16
 """
 
 from blueprint import auth_blueprint
-from blueprint import channels_blueprint
 from blueprint import collections_blueprint
 from blueprint import fontfaces_blueprint
 from blueprint import fonts_blueprint
@@ -23,7 +22,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 app.register_blueprint(auth_blueprint, url_prefix=application_root)
-app.register_blueprint(channels_blueprint, url_prefix=application_root)
 app.register_blueprint(collections_blueprint, url_prefix=application_root)
 app.register_blueprint(fontfaces_blueprint, url_prefix=application_root)
 app.register_blueprint(fonts_blueprint, url_prefix=application_root)

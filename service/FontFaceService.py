@@ -1,8 +1,8 @@
-""" Font-faces srvice
+""" Font-faces service
 
 High level functions to manipulate font faces table.
 
-Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 4/1/2017
+Created by Lahiru Pathirage <lpsandaruwan@gmail.com> on 4/1/2017
 """
 
 from model import FontFace
@@ -14,9 +14,8 @@ class FontFaceService:
     def __init__(self):
         self.__db_session = DBSession()
 
-    def add_new_font(self, download_url, font_id, fontface, resource_path):
+    def add_new_font(self, font_id, fontface, resource_path):
         new_fontface = FontFace(
-            download_url=download_url,
             font_id=font_id,
             fontface=fontface,
             resource_path=resource_path

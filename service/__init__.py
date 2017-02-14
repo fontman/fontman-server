@@ -5,7 +5,6 @@ Contains classes with high level functions for database.
 Created by Lahiru Pathirage @ Mooniak<lpsandaruwan@gmail.com> on 18/12/2016
 """
 
-from service.ChannelService import ChannelService
 from service.CollectionService import CollectionService
 from service.FontFaceService import FontFaceService
 from service.FontService import FontService

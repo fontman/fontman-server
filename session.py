@@ -16,7 +16,7 @@ version = '0.1.0-SNAPSHOT'
 application_root = "/api/v1alpha"
 
 # mysql con string
-mysql_con_string = "mysql://root@localhost/fontman?charset=utf8"
+mysql_con_string = "mysql://root:1234@localhost/fontman?charset=utf8"
 
 # Database session variables
 engine = create_engine(
@@ -29,4 +29,3 @@ Base = declarative_base()
 
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
-

@@ -29,7 +29,6 @@ def find_collection_by_collection_id(collection_id):
         {
             "collection_id": collection.collection_id,
             "name": collection.name,
-            "team_id": collection.team_id,
             "type": collection>type
         }
     )
@@ -40,22 +39,7 @@ def find_collection_by_collection_id(collection_id):
 @collections_blueprint.route('/collections/')
 def find_collections_by_request_parameter():
     response_data = []
-    error1, error2 = False, False
-
-    try:
-        query_string = request.args.get('team_id')
-        collections = CollectionService().find_by_team_id(query_string)
-        for collection in collections:
-            response_data.append(
-                {
-                    "collection_id": collection.collection_id,
-                    "name": collection.collection_id,
-                    "type": collection.type,
-                    "team_id": collection.team_id}
-            )
-
-    except:
-        error1 = True
+    error = False
 
     try:
         query_string = request.args.get('type')
@@ -64,8 +48,7 @@ def find_collections_by_request_parameter():
             collection_data = {
                 "collection_id": collection.collection_id,
                 "name": collection.collection_id,
-                "type": collection.type,
-                "team_id": collection.team_id
+                "type": collection.type
             }
 
             if collection_data not in response_data:
@@ -74,9 +57,9 @@ def find_collections_by_request_parameter():
                 continue
 
     except:
-        error2 = True
+        error = True
 
-    if error1 and error2:
+    if error:
         return jsonify({"error": "Invalid request"})
 
     else:
@@ -89,7 +72,6 @@ def add_new_collection():
 
     try:
         collection = CollectionService().add_new(
-            team_id=request_data["team_id"],
             name=request_data["name"],
             type=request_data["type"]
         )
@@ -98,7 +80,6 @@ def add_new_collection():
             {
                 "collection_id": collection.collection_id,
                 "name": collection.name,
-                "team_id": collection.team_id,
                 "type": collection.type,
             }
         )

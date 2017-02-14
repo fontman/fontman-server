@@ -14,10 +14,9 @@ class CollectionService:
     def __init__(self):
         self.__db_session = DBSession()
 
-    def add_new(self, team_id, name, type):
+    def add_new(self, name, type):
         new_collection = Collection(
             name=name,
-            team_id=team_id,
             type=type
         )
 
@@ -37,9 +36,6 @@ class CollectionService:
         return self.__db_session.query(Collection).filter_by(
             collection_id=collection_id
         )
-
-    def find_by_team_id(self, team_id):
-        return self.__db_session.query(Collection).filter_by(team_id=team_id)
 
     def find_by_type(self, type):
         return self.__db_session.query(Collection).filter_by(type=type)
