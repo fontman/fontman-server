@@ -47,5 +47,5 @@ class MetadataService:
         )
 
     def update_by_font_id(self, font_id, update_data):
-        self.find_by_font_id(font_id).update_data(update_data)
+        self.find_by_font_id(font_id).update(update_data)
         self.__db_session.commit()

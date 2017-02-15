@@ -17,9 +17,10 @@ class DBManager:
     def update_font_cache(self):
         font_list = FontService().find_all()
         index_data = FontIndexConsumer().load_font_index()
-        trigger = False
 
         for element in index_data:
+            trigger = False
+            
             for font in font_list:
                 if font.name == element["name"]:
                     update_data = {

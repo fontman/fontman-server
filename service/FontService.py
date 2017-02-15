@@ -16,7 +16,6 @@ class FontService:
 
     def add_new_font(self, name):
         new_font = Font(
-            license=license,
             name=name,
         )
 
@@ -30,11 +29,11 @@ class FontService:
         self.__db_session.commit()
 
     def find_all(self):
-        return self.__db_session.query(Font.font_id)
+        return self.__db_session.query(Font)
 
     def find_by_font_id(self, font_id):
         return self.__db_session.query(Font).filter_by(font_id=font_id)
 
     def update_by_font_id(self, font_id, update_data):
-        self.find_by_font_id(font_id).update_data(update_data)
+        self.find_by_font_id(font_id).update(update_data)
         self.__db_session.commit()

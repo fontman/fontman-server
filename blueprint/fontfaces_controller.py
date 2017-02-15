@@ -9,10 +9,10 @@ from service import FontFaceService
 
 from flask import Blueprint, jsonify, request
 
-fontfaces_blueprint = Blueprint('fontfaces_blueprint', __name__)
+fontfaces_blueprint = Blueprint("fontfaces_blueprint", __name__)
 
 
-@fontfaces_blueprint.route('/fontfaces')
+@fontfaces_blueprint.route("/fontfaces")
 def find_all_fontfaces():
     response_data = []
 
@@ -22,7 +22,7 @@ def find_all_fontfaces():
     return jsonify(response_data)
 
 
-@fontfaces_blueprint.route('/fontfaces/<fontface_id>')
+@fontfaces_blueprint.route("/fontfaces/<fontface_id>")
 def find_fontface_by_fontface_id(fontface_id):
     try:
         fontface = FontFaceService().find_by_fontface_id(fontface_id).one()
@@ -39,12 +39,12 @@ def find_fontface_by_fontface_id(fontface_id):
         return jsonify({"error": "Font face does not exists"})
 
 
-@fontfaces_blueprint.route('/fontfaces/')
+@fontfaces_blueprint.route("/fontfaces/")
 def find_fontface_by_font_id():
     response_data = []
 
     try:
-        query_string = request.args.get('font_id')
+        query_string = request.args.get("font_id")
         fontfaces = FontFaceService().find_by_font_id(query_string)
 
         for fontface in fontfaces:

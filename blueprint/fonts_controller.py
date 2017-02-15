@@ -18,8 +18,8 @@ def find_all_fonts():
     response_data = []
     fonts = FontService().find_all()
 
-    for font_id in fonts:
-        response_data.append(font_id[0])
+    for font in fonts:
+        response_data.append(font.font_id)
 
     return jsonify(response_data)
 

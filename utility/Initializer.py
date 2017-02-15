@@ -10,9 +10,12 @@ from session import mysql_con_string
 
 from sqlalchemy import create_engine
 
+from utility import DBManager
+
 
 def initialize():
     engine = create_engine(
         mysql_con_string
     )
     Base.metadata.create_all(engine, checkfirst=True)
+    DBManager().update_font_cache()
