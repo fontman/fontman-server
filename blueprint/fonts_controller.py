@@ -26,7 +26,7 @@ def find_all_fonts():
 
 @fonts_blueprint.route("/fonts/<font_id>")
 def find_font_by_font_id(font_id):
-    font_data = FontService().delete_by_font_id(font_id).first()
+    font_data = FontService().find_by_font_id(font_id).first()
     metadata = MetadataService().find_by_font_id(font_id).first()
 
     if font_data is None:
@@ -38,7 +38,8 @@ def find_font_by_font_id(font_id):
             "default_fontface": metadata.default_fontface,
             "download_url": metadata.download_url,
             "license": metadata.license,
+            "metadata_id": metadata.metadata_id,
             "name": font_data.name,
-            "version": font_data.version
+            "version": metadata.version
         }
     )

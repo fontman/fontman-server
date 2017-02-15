@@ -10,4 +10,5 @@ from blueprint.collections_controller import collections_blueprint
 from blueprint.fontfaces_controller import fontfaces_blueprint
 from blueprint.fonts_controller import fonts_blueprint
 from blueprint.roles_controller import roles_blueprint
+from blueprint.tags_controller import tags_blueprint
 from blueprint.users_controller import users_blueprint
