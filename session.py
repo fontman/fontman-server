@@ -23,7 +23,6 @@ engine = create_engine(
     mysql_con_string,
     isolation_level="READ UNCOMMITTED",
     echo=True,
-    max_pool_size=1000,
     max_overflow=1000,
     pool_recycle=3600
 )
